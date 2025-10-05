@@ -1,0 +1,344 @@
+###############################################################
+# Clustering VVIQ HUMANS
+###############################################################
+
+library(EGAnet)
+svg(filename = "reports/figures/svg/vviq_fl_cluster.svg")
+tmfg_vv_fl <- EGA(vviq_fl[,vviq_col_idx],
+                  corr = "cor_auto",
+                  model = "tmfg",
+                  algorithm = "walktrap",
+                  plot.EGA = TRUE,
+                  plot.type = "qgraph")
+dev.off()
+clusters_vv_tm <- data.frame(fl = tmfg_vv_fl$wc)
+
+svg(filename = "reports/figures/svg/vviq_pl_1_cluster.svg")
+tmfg_vv_pl1 <-EGA(vviq_pl_1[,vviq_col_idx],
+                  corr = "cor_auto",
+                  model = "tmfg",
+                  algorithm = "walktrap",
+                  plot.EGA = TRUE,
+                  plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$pl1 <- tmfg_vv_pl1$wc
+
+svg(filename = "reports/figures/svg/vviq_pl_2_cluster.svg")
+tmfg_vv_pl2 <- EGA(vviq_pl_2[,vviq_col_idx],
+                   corr = "cor_auto",
+                   model = "tmfg",
+                   algorithm = "walktrap",
+                   plot.EGA = TRUE,
+                   plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$pl2 <- tmfg_vv_pl2$wc
+
+svg(filename = "reports/figures/svg/vviq_pl_cluster.svg")
+tmfg_vv_pl <- EGA(vviq_pl[,vviq_col_idx],
+                  corr = "cor_auto",
+                  model = "tmfg",
+                  algorithm = "walktrap",
+                  plot.EGA = TRUE,
+                  plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$pl <- tmfg_vv_pl$wc
+
+
+svg(filename = "reports/figures/svg/vviq_flpl_cluster.svg")
+tmfg_vv_flpl <- EGA(vviq_flpl[,vviq_col_idx],
+                    corr = "cor_auto",
+                    model = "tmfg",
+                    algorithm = "walktrap",
+                    plot.EGA = TRUE,
+                    plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$flpl <- tmfg_vv_flpl$wc
+write_csv(clusters_vv_tm, "data/processed/clusters_vv_tm.csv")
+###############################################################
+# Clustering VVIQ LLM INDEPENDENT
+###############################################################
+
+svg(filename = "reports/figures/svg/vviq_g12_i_cluster.svg")
+tmfg_vv_g12_i <- EGA(vviq_g12_i[,vviq_col_idx],
+                     corr = "cor_auto",
+                     model = "tmfg",
+                     algorithm = "walktrap",
+                     plot.EGA = TRUE,
+                     plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$g12_i <- tmfg_vv_g12_i$wc
+
+svg(filename = "reports/figures/svg/vviq_g12qt_i_cluster.svg")
+tmfg_vv_g12_qt_i <- EGA(vviq_g12qt_i[,vviq_col_idx],
+                        corr = "cor_auto",
+                        model = "tmfg",
+                        algorithm = "walktrap",
+                        plot.EGA = TRUE,
+                        plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$g12_qt_i <- tmfg_vv_g12_qt_i$wc
+
+svg(filename = "reports/figures/svg/vviq_g27_i_cluster.svg")
+tmfg_vv_g27_i <- EGA(vviq_g27_i[,vviq_col_idx],
+                     corr = "cor_auto",
+                     model = "tmfg",
+                     algorithm = "walktrap",
+                     plot.EGA = TRUE,
+                     plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$g27_i <- tmfg_vv_g27_i$wc
+
+svg(filename = "reports/figures/svg/vviq_g27qt_i_cluster.svg")
+tmfg_vv_g27_qt_i <- EGA(vviq_g27qt_i[,vviq_col_idx],
+                        corr = "cor_auto",
+                        model = "tmfg",
+                        algorithm = "walktrap",
+                        plot.EGA = TRUE,
+                        plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$g27_qt_i <- tmfg_vv_g27_qt_i$wc
+
+svg(filename = "reports/figures/svg/vviq_ll70_i_cluster.svg")
+tmfg_vv_ll70_i <- EGA(vviq_ll70_i[,vviq_col_idx],
+                      corr = "cor_auto",
+                      model = "tmfg",
+                      algorithm = "walktrap",
+                      plot.EGA = TRUE,
+                      plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$ll70_i <- tmfg_vv_ll70_i$wc
+
+svg(filename = "reports/figures/svg/vviq_llsc_i_cluster.svg")
+tmfg_vv_llsc_i <- EGA(vviq_llsc_i[,vviq_col_idx],
+                      corr = "cor_auto",
+                      model = "tmfg",
+                      algorithm = "walktrap",
+                      plot.EGA = TRUE,
+                      plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$llsc_i <- tmfg_vv_llsc_i$wc
+
+###############################################################
+# Clustering VVIQ LLM Cumulative
+###############################################################
+svg(filename = "reports/figures/svg/vviq_g12_c_cluster.svg")
+tmfg_vv_g12_c <- EGA(vviq_g12_c[,vviq_col_idx],
+                     corr = "cor_auto",
+                     model = "tmfg",
+                     algorithm = "walktrap",
+                     plot.EGA = TRUE,
+                     plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$g12_c <- tmfg_vv_g12_c$wc
+
+svg(filename = "reports/figures/svg/vviq_g12qt_c_cluster.svg")
+tmfg_vv_g12_qt_c <- EGA(vviq_g12qt_c[,vviq_col_idx],
+                        corr = "cor_auto",
+                        model = "tmfg",
+                        algorithm = "walktrap",
+                        plot.EGA = TRUE,
+                        plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$g12_qt_c <- tmfg_vv_g12_qt_c$wc
+
+svg(filename = "reports/figures/svg/vviq_g27_c_cluster.svg")
+tmfg_vv_g27_c <- EGA(vviq_g27_c[,vviq_col_idx],
+                     corr = "cor_auto",
+                     model = "tmfg",
+                     algorithm = "walktrap",
+                     plot.EGA = TRUE,
+                     plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$g27_c <- tmfg_vv_g27_c$wc
+
+svg(filename = "reports/figures/svg/vviq_g27qt_c_cluster.svg")
+tmfg_vv_g27_qt_c <- EGA(vviq_g27qt_c[,vviq_col_idx],
+                        corr = "cor_auto",
+                        model = "tmfg",
+                        algorithm = "walktrap",
+                        plot.EGA = TRUE,
+                        plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$g27_qt_c <- tmfg_vv_g27_qt_c$wc
+
+svg(filename = "reports/figures/svg/vviq_ll70_c_cluster.svg")
+tmfg_vv_ll70_c <- EGA(vviq_ll70_c[,vviq_col_idx],
+                      corr = "cor_auto",
+                      model = "tmfg",
+                      algorithm = "walktrap",
+                      plot.EGA = TRUE,
+                      plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$ll70_c <- tmfg_vv_ll70_c$wc
+
+svg(filename = "reports/figures/svg/vviq_llsc_c_cluster.svg")
+tmfg_vv_llsc_c <- EGA(vviq_llsc_c[,vviq_col_idx],
+                      corr = "cor_auto",
+                      model = "tmfg",
+                      algorithm = "walktrap",
+                      plot.EGA = TRUE,
+                      plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$llsc_c <- tmfg_vv_llsc_c$wc
+write.csv(clusters_vv_tm, "data/processed/clusters_vv_tm.csv")
+###############################################################
+# Clustering PSIQ HUMANS
+##############################################################
+svg(filename = "reports/figures/svg/psiq_fl_cluster.svg")
+tmfg_ps_fl <- EGA(psiq_fl[,psiq_col_idx],
+                  corr = "cor_auto",
+                  model = "tmfg",
+                  algorithm = "walktrap",
+                  plot.EGA = TRUE,
+                  plot.type = "qgraph")
+dev.off()
+clusters_ps_tm <- data.frame(fl = tmfg_ps_fl$wc)
+
+svg(filename = "reports/figures/svg/psiq_uk_cluster.svg")
+tmfg_ps_uk <- EGA(psiq_uk[,psiq_col_idx],
+                  corr = "cor_auto",
+                  model = "tmfg",
+                  algorithm = "walktrap",
+                  plot.EGA = TRUE,
+                  plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$uk <- tmfg_ps_uk$wc
+
+svg(filename = "reports/figures/svg/psiq_ukfl_cluster.svg")
+tmfg_ps_ukfl <- EGA(psiq_ukfl[,psiq_col_idx],
+                    corr = "cor_auto",
+                    model = "tmfg",
+                    algorithm = "walktrap",
+                    plot.EGA = TRUE,
+                    plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$ukfl <- tmfg_ps_ukfl$wc
+
+##############################################################
+# Clustering PSIQ LLM INDEPENDENT
+##############################################################
+
+svg(filename = "reports/figures/svg/psiq_g12_i_cluster.svg")
+tmfg_ps_g12_i <- EGA(psiq_g12_i[,psiq_col_idx],
+                     corr = "cor_auto",
+                     model = "tmfg",
+                     algorithm = "walktrap",
+                     plot.EGA = TRUE,
+                     plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$g12_i <- tmfg_ps_g12_i$wc
+
+svg(filename = "reports/figures/svg/psiq_g12qt_i_cluster.svg")
+tmfg_ps_g12qt_i <- EGA(psiq_g12qt_i[,psiq_col_idx],
+                       corr = "cor_auto",
+                       model = "tmfg",
+                       algorithm = "walktrap",
+                       plot.EGA = TRUE,
+                       plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$g12_qt_i <- tmfg_ps_g12qt_i$wc
+
+svg(filename = "reports/figures/svg/psiq_g27_i_cluster.svg")
+tmfg_ps_g27_i <- EGA(psiq_g27_i[,psiq_col_idx],
+                     corr = "cor_auto",
+                     model = "tmfg",
+                     algorithm = "walktrap",
+                     plot.EGA = TRUE,
+                     plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$g27_i <- tmfg_ps_g27_i$wc
+
+svg(filename = "reports/figures/svg/psiq_g27qt_i_cluster.svg")
+tmfg_ps_g27qt_i <- EGA(psiq_g27qt_i[,psiq_col_idx],
+                       corr = "cor_auto",
+                       model = "tmfg",
+                       algorithm = "walktrap",
+                       plot.EGA = TRUE,
+                       plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$g27_qt_i <- tmfg_ps_g27qt_i$wc
+
+svg(filename = "reports/figures/svg/psiq_ll70_i_cluster.svg")
+tmfg_ps_ll70_i <- EGA(psiq_ll70_i[,psiq_col_idx],
+                      corr = "cor_auto",
+                      model = "tmfg",
+                      algorithm = "walktrap",
+                      plot.EGA = TRUE,
+                      plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$ll70_i <- tmfg_ps_ll70_i$wc
+
+svg(filename = "reports/figures/svg/psiq_llsc_i_cluster.svg")
+tmfg_ps_llsc_i <- EGA(psiq_llsc_i[,psiq_col_idx],
+                      corr = "cor_auto",
+                      model = "tmfg",
+                      algorithm = "walktrap",
+                      plot.EGA = TRUE,
+                      plot.type = "qgraph") 
+dev.off()
+clusters_ps_tm$llsc_i <- tmfg_ps_llsc_i$wc
+
+###############################################################
+# Clustering PSIQ LLM CUMULATIVE
+##############################################################
+
+svg(filename = "reports/figures/svg/psiq_g12_c_cluster.svg")
+tmfg_ps_g12_c <- EGA(psiq_g12_c[,psiq_col_idx],
+                     corr = "cor_auto",
+                     model = "tmfg",
+                     algorithm = "walktrap",
+                     plot.EGA = TRUE,
+                     plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$g12_c <- tmfg_ps_g12_c$wc
+
+svg(filename = "reports/figures/svg/psiq_g12qt_c_cluster.svg")
+tmfg_ps_g12qt_c <- EGA(psiq_g12qt_c[,psiq_col_idx],
+                       corr = "cor_auto",
+                       model = "tmfg",
+                       algorithm = "walktrap",
+                       plot.EGA = TRUE,
+                       plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$g12_qt_c <- tmfg_ps_g12qt_c$wc
+
+svg(filename = "reports/figures/svg/psiq_g27_c_cluster.svg")
+tmfg_ps_g27_c <- EGA(psiq_g27_c[,psiq_col_idx],
+                     corr = "cor_auto",
+                     model = "tmfg",
+                     algorithm = "walktrap",
+                     plot.EGA = TRUE,
+                     plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$g27_c <- tmfg_ps_g27_c$wc
+
+svg(filename = "reports/figures/svg/psiq_g27qt_c_cluster.svg")
+tmfg_ps_g27qt_c <- EGA(psiq_g27qt_c[,psiq_col_idx],
+                       corr = "cor_auto",
+                       model = "tmfg",
+                       algorithm = "walktrap",
+                       plot.EGA = TRUE,
+                       plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$g27_qt_c <- tmfg_ps_g27qt_c$wc
+
+svg(filename = "reports/figures/svg/psiq_ll70_c_cluster.svg")
+tmfg_ps_ll70_c <- EGA(psiq_ll70_c[,psiq_col_idx],
+                      corr = "cor_auto",
+                      model = "tmfg",
+                      algorithm = "walktrap",
+                      plot.EGA = TRUE,
+                      plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$ll70_c <- tmfg_ps_ll70_c$wc
+
+svg(filename = "reports/figures/svg/psiq_llsc_c_cluster.svg")
+tmfg_ps_llsc_c <- EGA(psiq_llsc_c[,psiq_col_idx],
+                      corr = "cor_auto",
+                      model = "tmfg",
+                      algorithm = "walktrap",
+                      plot.EGA = TRUE,
+                      plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$llsc_c <- tmfg_ps_llsc_c$wc
+write.csv(clusters_ps_tm, "data/processed/clusters_ps_tm.csv")

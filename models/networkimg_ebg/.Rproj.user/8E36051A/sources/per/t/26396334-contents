@@ -1,0 +1,935 @@
+library(tidyverse)
+library(qgraph)
+setwd("/Users/saurabh.ranjan/Documents/2020_2025_reality_monitoring_dissertation/E/imagine")
+set.seed(444)
+
+all_vviq_data <- read_csv("data/processed/all_vviq_groups.csv")
+all_psiq_data <- read_csv("data/processed/all_psiq_groups.csv")
+
+vviq_context <- rep(c('A','B','C','D','E','F','G','H'),each = 4)
+psiq_context <- rep(c("App","So","Sm","Ta","To","Bo","Fe"),each = 3)
+
+vviq_col_idx <- c(3:34)
+psiq_col_idx <- c(4:24)
+
+###############################
+vviq_fl <- filter(all_vviq_data,groups=="FL")
+vviq_pl_1 <- filter(all_vviq_data,groups=="PL-1")
+vviq_pl_2 <- filter(all_vviq_data,groups=="PL-2")
+vviq_pl <- filter(all_vviq_data,groups=="PL")
+vviq_flpl <- bind_rows(vviq_fl,vviq_pl)
+
+###############################
+
+vviq_g12_i <- filter(all_vviq_data,groups=="gemma3:12b_independent")
+vviq_g12qt_i <- filter(all_vviq_data,groups=="gemma3:12b-it-qat_independent")
+vviq_g27_i <- filter(all_vviq_data,groups=="gemma3:27b_independent")
+vviq_g27qt_i <- filter(all_vviq_data,groups=="gemma3:27b-it-qat_independent")
+vviq_ll70_i <- filter(all_vviq_data,groups=="llama3.3:70b_independent")
+vviq_llsc_i <- filter(all_vviq_data,groups=="llama4:scout_independent" )
+
+###############################
+vviq_g12_c <- filter(all_vviq_data,groups=="gemma3:12b_cumulative")
+vviq_g12qt_c <- filter(all_vviq_data,groups=="gemma3:12b-it-qat_cumulative")
+vviq_g27_c <- filter(all_vviq_data,groups=="gemma3:27b_cumulative")
+vviq_g27qt_c <- filter(all_vviq_data,groups=="gemma3:27b-it-qat_cumulative")
+vviq_ll70_c <- filter(all_vviq_data,groups=="llama3.3:70b_cumulative")
+vviq_llsc_c <- filter(all_vviq_data,groups=="llama4:scout_cumulative")
+
+###############################
+psiq_fl <- filter(all_psiq_data,groups=="FL")
+psiq_uk <- filter(all_psiq_data,groups=="UK")
+psiq_ukfl <- filter(all_psiq_data,groups=="FL+UK")
+
+###############################
+psiq_g12_i <- filter(all_psiq_data,groups=="gemma3:12b_independent")
+psiq_g12qt_i <- filter(all_psiq_data,groups=="gemma3:12b-it-qat_independent")
+psiq_g27_i <- filter(all_psiq_data,groups=="gemma3:27b_independent")
+psiq_g27qt_i <- filter(all_psiq_data,groups=="gemma3:27b-it-qat_independent")
+
+psiq_ll70_i <- filter(all_psiq_data,groups=="llama3.3:70b_independent")
+psiq_llsc_i <- filter(all_psiq_data,groups=="llama4:scout_independent")
+
+###############################
+psiq_g12_c <- filter(all_psiq_data,groups=="gemma3:12b_cumulative")
+psiq_g12qt_c <- filter(all_psiq_data,groups=="gemma3:12b-it-qat_cumulative")
+psiq_g27_c <- filter(all_psiq_data,groups=="gemma3:27b_cumulative")
+psiq_g27qt_c <- filter(all_psiq_data,groups== "gemma3:27b-it-qat_cumulative")
+
+psiq_ll70_c <- filter(all_psiq_data,groups=="llama3.3:70b_cumulative")
+psiq_llsc_c <- filter(all_psiq_data,groups=="llama4:scout_cumulative")
+
+###############################################################
+
+layout <- "spring"
+graphtype <-"pcor"
+filetype <- "pdf"
+
+
+###############################################################
+# PCOR Centrality VVIQ HUMANS
+###############################################################
+
+pcor_vv_fl <- qgraph(cor_auto(vviq_fl[,vviq_col_idx]),
+                     graph = graphtype, 
+                     groups = vviq_context,
+                     filetype = filetype,
+                     filename = "reports/figures/svg/fl_vviq",
+                     title="fl_vviq")
+
+pcor_vv_fl_cp <- centralityPlot(pcor_vv_fl, include = "all")
+pcor_vv_fl_ct <- centralityTable(pcor_vv_fl, standardized = FALSE)
+
+pcor_vv_pl1 <- qgraph(cor_auto(vviq_pl_1[,vviq_col_idx]),
+                     graph = graphtype, 
+                     groups = vviq_context,
+                     filetype = filetype,
+                     filename = "reports/figures/svg/pl1_vviq",
+                     title="pl1_vviq")
+
+pcor_vv_pl1_cp <- centralityPlot(pcor_vv_pl1, include = "all")
+pcor_vv_pl1_ct <- centralityTable(pcor_vv_pl1, standardized = FALSE)
+
+pcor_vv_pl2 <- qgraph(cor_auto(vviq_pl_2[,vviq_col_idx]),
+                      graph = graphtype, 
+                      groups = vviq_context,
+                      filetype = filetype,
+                      filename = "reports/figures/svg/pl2_vviq",
+                      title="pl2_vviq")
+
+pcor_vv_pl2_cp <- centralityPlot(pcor_vv_pl2, include = "all")
+pcor_vv_pl2_ct <- centralityTable(pcor_vv_pl2, standardized = FALSE)
+
+pcor_vv_pl <- qgraph(cor_auto(vviq_pl[,vviq_col_idx]),
+                      graph = graphtype, 
+                      groups = vviq_context,
+                      filetype = filetype,
+                      filename = "reports/figures/svg/pl_vviq",
+                      title="pl_vviq")
+
+pcor_vv_pl_cp <- centralityPlot(pcor_vv_pl, include = "all")
+pcor_vv_pl_ct <- centralityTable(pcor_vv_pl, standardized = FALSE)
+
+pcor_vv_flpl <- qgraph(cor_auto(vviq_flpl[,vviq_col_idx]),
+                     graph = graphtype, 
+                     groups = vviq_context,
+                     filetype = filetype,
+                     filename = "reports/figures/svg/pl_vviq",
+                     title="pl_vviq")
+
+pcor_vv_flpl_cp <- centralityPlot(pcor_vv_flpl, include = "all")
+pcor_vv_flpl_ct <- centralityTable(pcor_vv_flpl, standardized = FALSE)
+
+###############################################################
+# PCOR Centrality VVIQ LLM INDEPENDENT TASK
+###############################################################
+
+pcor_vv_g12_i <- qgraph(cor_auto(vviq_g12_i[,vviq_col_idx]),
+                     graph = graphtype, 
+                     groups = vviq_context,
+                     filetype = filetype,
+                     filename = "reports/figures/svg/g12_i_vviq",
+                     title="g12_i_vviq")
+
+pcor_vv_g12_i_cp <- centralityPlot(pcor_vv_g12_i, include = "all")
+pcor_vv_g12_i_ct <- centralityTable(pcor_vv_g12_i, standardized = FALSE)
+
+pcor_vv_g12qt_i <- qgraph(cor_auto(vviq_g12qt_i[,vviq_col_idx]),
+                        graph = graphtype, 
+                        groups = vviq_context,
+                        filetype = filetype,
+                        filename = "reports/figures/svg/g12qt_i_vviq",
+                        title="g12qt_i_vviq")
+
+pcor_vv_g12qt_i_cp <- centralityPlot(pcor_vv_g12qt_i, include = "all")
+pcor_vv_g12qt_i_ct <- centralityTable(pcor_vv_g12qt_i, standardized = FALSE)
+
+pcor_vv_g27_i <- qgraph(cor_auto(vviq_g27_i[,vviq_col_idx]),
+                        graph = graphtype, 
+                        groups = vviq_context,
+                        filetype = filetype,
+                        filename = "reports/figures/svg/g12_i_vviq",
+                        title="g12_i_vviq")
+
+pcor_vv_g27_i_cp <- centralityPlot(pcor_vv_g27_i, include = "all")
+pcor_vv_g27_i_ct <- centralityTable(pcor_vv_g27_i, standardized = FALSE)
+
+pcor_vv_g27qt_i <- qgraph(cor_auto(vviq_g27qt_i[,vviq_col_idx]),
+                          graph = graphtype, 
+                          groups = vviq_context,
+                          filetype = filetype,
+                          filename = "reports/figures/svg/g27qt_i_vviq",
+                          title="g27qt_i_vviq")
+pcor_vv_g27qt_i_cp <- centralityPlot(pcor_vv_g27qt_i, include = "all")
+pcor_vv_g27qt_i_ct <- centralityTable(pcor_vv_g27qt_i, standardized = FALSE)
+
+pcor_vv_ll70_i <- qgraph(cor_auto(vviq_ll70_i[,vviq_col_idx]),
+                        graph = graphtype, 
+                        groups = vviq_context,
+                        filetype = filetype,
+                        filename = "reports/figures/svg/ll70_i_vviq",
+                        title="ll70_i_vviq")
+
+pcor_vv_ll70_i_cp <- centralityPlot(pcor_vv_ll70_i, include = "all")
+pcor_vv_ll70_i_ct <- centralityTable(pcor_vv_ll70_i, standardized = FALSE)
+
+
+pcor_vv_llsc_i <- qgraph(cor_auto(vviq_llsc_i[,vviq_col_idx]),
+                          graph = graphtype, 
+                          groups = vviq_context,
+                          filetype = filetype,
+                          filename = "reports/figures/svg/llsc_i_vviq",
+                          title="llsc_i_vviq")
+
+pcor_vv_llsc_i_cp <- centralityPlot(pcor_vv_llsc_i, include = "all")
+pcor_vv_llsc_i_ct <- centralityTable(pcor_vv_llsc_i, standardized = FALSE)
+
+###############################################################
+# PCOR Centrality VVIQ LLM CUMULATIVE TASK
+###############################################################
+
+pcor_vv_g12_c <- qgraph(cor_auto(vviq_g12_c[,vviq_col_idx]),
+                        graph = graphtype, 
+                        groups = vviq_context,
+                        filetype = filetype,
+                        filename = "reports/figures/svg/g12_c_vviq",
+                        title="g12_c_vviq")
+
+pcor_vv_g12_c_cp <- centralityPlot(pcor_vv_g12_c, include = "all")
+pcor_vv_g12_c_ct <- centralityTable(pcor_vv_g12_c, standardized = FALSE)
+
+
+pcor_vv_g12qt_c <- qgraph(cor_auto(vviq_g12qt_c[,vviq_col_idx]),
+                          graph = graphtype, 
+                          groups = vviq_context,
+                          filetype = filetype,
+                          filename = "reports/figures/svg/g12qt_c_vviq",
+                          title="g12qt_c_vviq")
+
+pcor_vv_g12qt_c_cp <- centralityPlot(pcor_vv_g12qt_c, include = "all")
+pcor_vv_g12qt_c_ct <- centralityTable(pcor_vv_g12qt_c, standardized = FALSE)
+
+pcor_vv_g27_c <- qgraph(cor_auto(vviq_g27_c[,vviq_col_idx]),
+                        graph = graphtype, 
+                        groups = vviq_context,
+                        filetype = filetype,
+                        filename = "reports/figures/svg/g12_c_vviq",
+                        title="g12_c_vviq")
+
+pcor_vv_g27_c_cp <- centralityPlot(pcor_vv_g27_c, include = "all")
+pcor_vv_g27_c_ct <- centralityTable(pcor_vv_g27_c, standardized = FALSE)
+
+pcor_vv_g27qt_c <- qgraph(cor_auto(vviq_g27qt_c[,vviq_col_idx]),
+                          graph = graphtype, 
+                          groups = vviq_context,
+                          filetype = filetype,
+                          filename = "reports/figures/svg/g27qt_c_vviq",
+                          title="g27qt_c_vviq")
+
+pcor_vv_g27qt_c_cp <- centralityPlot(pcor_vv_g27qt_c, include = "all")
+pcor_vv_g27qt_c_ct <- centralityTable(pcor_vv_g27qt_c, standardized = FALSE)
+
+pcor_vv_ll70_c <- qgraph(cor_auto(vviq_ll70_c[,vviq_col_idx]),
+                         graph = graphtype, 
+                         groups = vviq_context,
+                         filetype = filetype,
+                         filename = "reports/figures/svg/ll70_c_vviq",
+                         title="ll70_c_vviq")
+
+pcor_vv_ll70_c_cp <- centralityPlot(pcor_vv_ll70_c, include = "all")
+pcor_vv_ll70_c_ct <- centralityTable(pcor_vv_ll70_c, standardized = FALSE)
+
+pcor_vv_llsc_c <- qgraph(cor_auto(vviq_llsc_c[,vviq_col_idx]),
+                         graph = graphtype, 
+                         groups = vviq_context,
+                         filetype = filetype,
+                         filename = "reports/figures/svg/llsc_c_vviq",
+                         title="llsc_c_vviq")
+
+pcor_vv_llsc_c_cp <- centralityPlot(pcor_vv_llsc_c, include = "all")
+pcor_vv_llsc_c_ct <- centralityTable(pcor_vv_llsc_c, standardized = FALSE)
+
+###############################################################
+# PCOR Centrality PSIQ HUMANS
+###############################################################
+
+
+pcor_ps_fl <- qgraph(cor_auto(psiq_fl[,psiq_col_idx]),
+       graph = graphtype, 
+       groups = psiq_context,
+       filetype = filetype,
+       filename = "reports/figures/svg/fl_psiq",
+       title="fl_psiq")
+
+pcor_ps_fl_cp <- centralityPlot(pcor_ps_fl, include = "all")
+pcor_ps_fl_ct <- centralityTable(pcor_ps_fl, standardized = FALSE)
+
+pcor_ps_uk <- qgraph(cor_auto(psiq_uk[,psiq_col_idx]),
+                     graph = graphtype, 
+                     groups = psiq_context,
+                     filetype = filetype,
+                     filename = "reports/figures/svg/uk_psiq",
+                     title="uk_psiq")
+
+pcor_ps_uk_cp <- centralityPlot(pcor_ps_uk, include = "all")
+pcor_ps_uk_ct <- centralityTable(pcor_ps_uk, standardized = FALSE)
+
+pcor_ps_ukfl <- qgraph(cor_auto(psiq_ukfl[,psiq_col_idx]),
+                     graph = graphtype, 
+                     groups = psiq_context,
+                     filetype = filetype,
+                     filename = "reports/figures/svg/ukfl_psiq",
+                     title="ukfl_psiq")
+
+pcor_ps_ukfl_cp <- centralityPlot(pcor_ps_ukfl, include = "all")
+pcor_ps_ukfl_ct <- centralityTable(pcor_ps_ukfl, standardized = FALSE)
+
+###############################################################
+# PCOR Centrality PSIQ LLM INDEPENDENT TASK
+###############################################################
+
+pcor_ps_g12_i <- qgraph(cor_auto(psiq_g12_i[,psiq_col_idx]),
+                        graph = graphtype, 
+                        groups = psiq_context,
+                        filetype = filetype,
+                        filename = "reports/figures/svg/g12_i_psiq",
+                        title="g12_i_psiq")
+
+pcor_ps_g12_i_cp <- centralityPlot(pcor_ps_g12_i, include = "all")
+pcor_ps_g12_i_ct <- centralityTable(pcor_ps_g12_i, standardized = FALSE)
+
+
+pcor_ps_g12qt_i <- qgraph(cor_auto(psiq_g12qt_i[,psiq_col_idx]),
+                          graph = graphtype, 
+                          groups = psiq_context,
+                          filetype = filetype,
+                          filename = "reports/figures/svg/g12qt_i_psiq",
+                          title="g12qt_i_psiq")
+
+pcor_ps_g12qt_i_cp <- centralityPlot(pcor_ps_g12qt_i, include = "all")
+pcor_ps_g12qt_i_ct <- centralityTable(pcor_ps_g12qt_i, standardized = FALSE)
+
+pcor_ps_g27_i <- qgraph(cor_auto(psiq_g27_i[,psiq_col_idx]),
+                        graph = graphtype, 
+                        groups = psiq_context,
+                        filetype = filetype,
+                        filename = "reports/figures/svg/g27_i_psiq",
+                        title="g27_i_psiq")
+
+pcor_ps_g27_i_cp <- centralityPlot(pcor_ps_g27_i, include = "all")
+pcor_ps_g27_i_ct <- centralityTable(pcor_ps_g27_i, standardized = FALSE)
+
+pcor_ps_g27qt_i <- qgraph(cor_auto(psiq_g27qt_i[,psiq_col_idx]),
+                          graph = graphtype, 
+                          groups = psiq_context,
+                          filetype = filetype,
+                          filename = "reports/figures/svg/g27qt_i_psiq",
+                          title="g27qt_i_psiq")
+
+pcor_ps_g27qt_i_cp <- centralityPlot(pcor_ps_g27qt_i, include = "all")
+pcor_ps_g27qt_i_ct <- centralityTable(pcor_ps_g27qt_i, standardized = FALSE)
+
+pcor_ps_ll70_i <- qgraph(cor_auto(psiq_ll70_i[,psiq_col_idx]),
+                         graph = graphtype, 
+                         groups = psiq_context,
+                         filetype = filetype,
+                         filename = "reports/figures/svg/ll70_i_psiq",
+                         title="ll70_i_psiq")
+
+pcor_ps_ll70_i_cp <- centralityPlot(pcor_ps_ll70_i, include = "all")
+pcor_ps_ll70_i_ct <- centralityTable(pcor_ps_ll70_i, standardized = FALSE)
+
+pcor_ps_llsc_i <- qgraph(cor_auto(psiq_llsc_i[,psiq_col_idx]),
+                         graph = graphtype, 
+                         groups = psiq_context,
+                         filetype = filetype,
+                         filename = "reports/figures/svg/llsc_i_psiq",
+                         title="llsc_i_psiq")
+
+pcor_ps_llsc_i_cp <- centralityPlot(pcor_ps_llsc_i, include = "all")
+pcor_ps_llsc_i_ct <- centralityTable(pcor_ps_llsc_i, standardized = FALSE)
+
+###############################################################
+# PCOR Centrality PSIQ LLM CUMULATIVE TASK
+###############################################################
+
+
+pcor_ps_g12_c <- qgraph(cor_auto(psiq_g12_c[,psiq_col_idx]),
+                        graph = "pcor",#graphtype, 
+                        groups = psiq_context,
+                        filetype = filetype,
+                        #filename = "reports/figures/svg/g12_c_psiq",
+                        title="g12_c_psiq")
+
+pcor_ps_g12_c_cp <- centralityPlot(pcor_ps_g12_c, include = "all")
+pcor_ps_g12_c_ct <- centralityTable(pcor_ps_g12_c, standardized = FALSE)
+
+pcor_ps_g12qt_c <- qgraph(cor_auto(psiq_g12qt_c[,psiq_col_idx]),
+                          graph = graphtype, 
+                          groups = psiq_context,
+                          filetype = filetype,
+                          filename = "reports/figures/svg/g12qt_c_psiq",
+                          title="g12qt_c_psiq")
+
+pcor_ps_g12qt_c_cp <- centralityPlot(pcor_ps_g12qt_c, include = "all")
+pcor_ps_g12qt_c_ct <- centralityTable(pcor_ps_g12qt_c, standardized = FALSE)
+
+pcor_ps_g27_c <- qgraph(cor_auto(psiq_g27_c[,psiq_col_idx]),
+                        graph = graphtype, 
+                        groups = psiq_context,
+                        filetype = filetype,
+                        filename = "reports/figures/svg/g27_c_psiq",
+                        title="g27_c_psiq")
+
+pcor_ps_g27_c_cp <- centralityPlot(pcor_ps_g27_c, include = "all")
+pcor_ps_g27_c_ct <- centralityTable(pcor_ps_g27_c, standardized = FALSE)
+
+pcor_ps_g27qt_c <- qgraph(cor_auto(psiq_g27qt_c[,psiq_col_idx]),
+                          graph = graphtype, 
+                          groups = psiq_context,
+                          filetype = filetype,
+                          filename = "reports/figures/svg/g27qt_c_psiq",
+                          title="g27qt_c_psiq")
+
+pcor_ps_g27qt_c_cp <- centralityPlot(pcor_ps_g27qt_c, include = "all")
+pcor_ps_g27qt_c_ct <- centralityTable(pcor_ps_g27_c, standardized = FALSE)
+
+pcor_ps_ll70_c <- qgraph(cor_auto(psiq_ll70_i[,psiq_col_idx]),
+                         graph = graphtype, 
+                         groups = psiq_context,
+                         filetype = filetype,
+                         filename = "reports/figures/svg/ll70_c_psiq",
+                         title="ll70_c_psiq")
+
+pcor_ps_ll70_c_cp <- centralityPlot(pcor_ps_ll70_c, include = "all")
+pcor_ps_ll70_c_ct <- centralityTable(pcor_ps_ll70_c, standardized = FALSE)
+
+pcor_ps_llsc_c <- qgraph(cor_auto(psiq_llsc_i[,psiq_col_idx]),
+                         graph = graphtype, 
+                         groups = psiq_context,
+                         filetype = filetype,
+                         filename = "reports/figures/svg/llsc_c_psiq",
+                         title="llsc_c_psiq")
+
+pcor_ps_llsc_c_cp <- centralityPlot(pcor_ps_llsc_c, include = "all")
+pcor_ps_llsc_c_ct <- centralityTable(pcor_ps_llsc_c, standardized = FALSE)
+
+###############################################################
+# Clustering Table HUMANS
+###############################################################
+pcor_vv_fl_ct$task <- "vviq"
+pcor_vv_fl_ct$group <- "fl"
+pcor_vv_fl_ct$model <- "human"
+
+pcor_vv_pl1_ct$task <- "vviq"
+pcor_vv_pl1_ct$group <- "pl1"
+pcor_vv_pl1_ct$model <- "human"
+
+pcor_vv_pl2_ct$task <- "vviq"
+pcor_vv_pl2_ct$group <- "pl2"
+pcor_vv_pl2_ct$model <- "human"
+
+pcor_vv_pl_ct$task <- "vviq"
+pcor_vv_pl_ct$group <- "pl"
+pcor_vv_pl_ct$model <- "human"
+
+pcor_vv_flpl_ct$task <- "vviq"
+pcor_vv_flpl_ct$group <- "plfl"
+pcor_vv_flpl_ct$model <- "human"
+
+pcor_vv_g12_i_ct$task <- "vviq"
+pcor_vv_g12_i_ct$group <- "independent"
+pcor_vv_g12_i_ct$model <- "g12"
+
+pcor_vv_g12qt_i_ct$task <- "vviq"
+pcor_vv_g12qt_i_ct$group <- "independent"
+pcor_vv_g12qt_i_ct$model <- "g12qt"
+
+pcor_vv_g27_i_ct$task <- "vviq"
+pcor_vv_g27_i_ct$group <- "independent"
+pcor_vv_g27_i_ct$model <- "g27"
+
+pcor_vv_g27qt_i_ct$task <- "vviq"
+pcor_vv_g27qt_i_ct$group <- "independent"
+pcor_vv_g27qt_i_ct$model <- "g27qt"
+
+pcor_vv_ll70_i_ct$task <- "vviq"
+pcor_vv_ll70_i_ct$group <- "independent"
+pcor_vv_ll70_i_ct$model <- "ll70"
+
+pcor_vv_llsc_i_ct$task <- "vviq"
+pcor_vv_llsc_i_ct$group <- "independent"
+pcor_vv_llsc_i_ct$model <- "llsc"
+
+pcor_vv_g12_c_ct$task <- "vviq"
+pcor_vv_g12_c_ct$group <- "cumulative"
+pcor_vv_g12_c_ct$model <- "g12"
+
+pcor_vv_g12qt_c_ct$task <- "vviq"
+pcor_vv_g12qt_c_ct$group <- "cumulative"
+pcor_vv_g12qt_c_ct$model <- "g12qt"
+
+pcor_vv_g27_c_ct$task <- "vviq"
+pcor_vv_g27_c_ct$group <- "cumulative"
+pcor_vv_g27_c_ct$model <- "g27"
+
+pcor_vv_g27qt_c_ct$task <- "vviq"
+pcor_vv_g27qt_c_ct$group <- "cumulative"
+pcor_vv_g27qt_c_ct$model <- "g27qt" 
+
+pcor_vv_ll70_c_ct$task <- "vviq"
+pcor_vv_ll70_c_ct$group <- "cumulative"
+pcor_vv_ll70_c_ct$model <- "ll70"
+
+pcor_vv_llsc_c_ct$task <- "vviq"
+pcor_vv_llsc_c_ct$group <- "cumulative"
+pcor_vv_llsc_c_ct$model <- "llsc"
+
+pcor_centrality_vviq_humans <- bind_rows(pcor_vv_fl_ct,
+                                         pcor_vv_pl1_ct,
+                                         pcor_vv_pl2_ct,
+                                         pcor_vv_pl_ct,
+                                         pcor_vv_flpl_ct)
+
+pcor_centrality_vviq_models <- bind_rows(pcor_vv_g12_i_ct,
+                                         pcor_vv_g12qt_i_ct,
+                                         pcor_vv_g27_i_ct,
+                                         pcor_vv_g27qt_i_ct,
+                                         pcor_vv_ll70_i_ct,
+                                         pcor_vv_llsc_i_ct,
+                                         pcor_vv_g12_c_ct,
+                                         pcor_vv_g12qt_c_ct,
+                                         pcor_vv_g27_c_ct,
+                                         pcor_vv_g27qt_c_ct,
+                                         pcor_vv_ll70_c_ct,
+                                         pcor_vv_llsc_c_ct)
+
+write_csv(pcor_centrality_vviq_humans, "data/processed/pcor_centrality_vviq_humans.csv")
+write_csv(pcor_centrality_vviq_models, "data/processed/pcor_centrality_vviq_models.csv")
+
+##############
+pcor_ps_fl_ct$task <- "psiq"
+pcor_ps_fl_ct$group <- "fl"
+pcor_ps_fl_ct$model <- "human"
+
+pcor_ps_uk_ct$task <- "psiq"
+pcor_ps_uk_ct$group <- "uk"
+pcor_ps_uk_ct$model <- "human"
+
+pcor_ps_ukfl_ct$task <- "psiq"
+pcor_ps_ukfl_ct$group <- "ukfl"
+pcor_ps_ukfl_ct$model <- "human"
+
+pcor_ps_g12_i_ct$task <- "psiq"
+pcor_ps_g12_i_ct$group <- "independent"
+pcor_ps_g12_i_ct$model <- "g12"
+
+pcor_ps_g12qt_i_ct$task <- "psiq"
+pcor_ps_g12qt_i_ct$group <- "independent"
+pcor_ps_g12qt_i_ct$model <- "g12qt"
+
+pcor_ps_g27_i_ct$task <- "psiq"
+pcor_ps_g27_i_ct$group <- "independent"
+pcor_ps_g27_i_ct$model <- "g27"
+
+pcor_ps_g27qt_i_ct$task <- "psiq"
+pcor_ps_g27qt_i_ct$group <- "independent"
+pcor_ps_g27qt_i_ct$model <- "g27qt"
+
+pcor_ps_ll70_i_ct$task <- "psiq"
+pcor_ps_ll70_i_ct$group <- "independent"
+pcor_ps_ll70_i_ct$model <- "ll70"
+
+pcor_ps_llsc_i_ct$task <- "psiq"
+pcor_ps_llsc_i_ct$group <- "independent"
+pcor_ps_llsc_i_ct$model <- "llsc"
+
+pcor_ps_g12_c_ct$task <- "psiq"
+pcor_ps_g12_c_ct$group <- "cumulative"
+pcor_ps_g12_c_ct$model <- "g12"
+
+pcor_ps_g12qt_c_ct$task <- "psiq"
+pcor_ps_g12qt_c_ct$group <- "cumulative"
+pcor_ps_g12qt_c_ct$model <- "g12qt"
+
+pcor_ps_g27_c_ct$task <- "psiq"
+pcor_ps_g27_c_ct$group <- "cumulative"
+pcor_ps_g27_c_ct$model <- "g27"
+
+pcor_ps_g27qt_c_ct$task <- "psiq"
+pcor_ps_g27qt_c_ct$group <- "cumulative"
+pcor_ps_g27qt_c_ct$model <- "g27qt"
+
+pcor_ps_ll70_c_ct$task <- "psiq"
+pcor_ps_ll70_c_ct$group <- "cumulative"
+pcor_ps_ll70_c_ct$model <- "ll70"
+
+pcor_ps_llsc_c_ct$task <- "psiq"
+pcor_ps_llsc_c_ct$group <- "cumulative"
+pcor_ps_llsc_c_ct$model <- "llsc"
+
+
+pcor_centrality_psiq_humans <- bind_rows(pcor_ps_fl_ct,
+                                         pcor_ps_uk_ct,
+                                         pcor_ps_ukfl_ct)
+
+pcor_centrality_psiq_models <- bind_rows(pcor_ps_g12_i_ct,
+                                         pcor_ps_g12qt_i_ct,
+                                         pcor_ps_g27_i_ct,
+                                         pcor_ps_g27qt_i_ct,
+                                         pcor_ps_ll70_i_ct,
+                                         pcor_ps_llsc_i_ct,
+                                         pcor_ps_g12_c_ct,
+                                         pcor_ps_g12qt_c_ct,
+                                         pcor_ps_g27_c_ct,
+                                         pcor_ps_g27qt_c_ct,
+                                         pcor_ps_ll70_c_ct,
+                                         pcor_ps_llsc_c_ct)
+write_csv(pcor_centrality_psiq_humans, "data/processed/pcor_centrality_psiq_humans.csv")
+write_csv(pcor_centrality_psiq_models, "data/processed/pcor_centrality_psiq_models.csv")
+
+###############################################################
+# Clustering VVIQ HUMANS
+###############################################################
+
+library(EGAnet)
+svg(filename = "reports/figures/svg/vviq_fl_cluster.svg")
+tmfg_vv_fl <- EGA(vviq_fl[,vviq_col_idx],
+                   corr = "cor_auto",
+                   model = "tmfg",
+                   algorithm = "walktrap",
+                   plot.EGA = TRUE,
+                   plot.type = "qgraph")
+dev.off()
+clusters_vv_tm <- data.frame(fl = tmfg_vv_fl$wc)
+
+svg(filename = "reports/figures/svg/vviq_pl_1_cluster.svg")
+tmfg_vv_pl1 <-EGA(vviq_pl_1[,vviq_col_idx],
+                  corr = "cor_auto",
+                  model = "tmfg",
+                  algorithm = "walktrap",
+                  plot.EGA = TRUE,
+                  plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$pl1 <- tmfg_vv_pl1$wc
+
+svg(filename = "reports/figures/svg/vviq_pl_2_cluster.svg")
+tmfg_vv_pl2 <- EGA(vviq_pl_2[,vviq_col_idx],
+                   corr = "cor_auto",
+                   model = "tmfg",
+                   algorithm = "walktrap",
+                   plot.EGA = TRUE,
+                   plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$pl2 <- tmfg_vv_pl2$wc
+
+svg(filename = "reports/figures/svg/vviq_pl_cluster.svg")
+tmfg_vv_pl <- EGA(vviq_pl[,vviq_col_idx],
+                  corr = "cor_auto",
+                  model = "tmfg",
+                  algorithm = "walktrap",
+                  plot.EGA = TRUE,
+                  plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$pl <- tmfg_vv_pl$wc
+
+
+svg(filename = "reports/figures/svg/vviq_flpl_cluster.svg")
+tmfg_vv_flpl <- EGA(vviq_flpl[,vviq_col_idx],
+                  corr = "cor_auto",
+                  model = "tmfg",
+                  algorithm = "walktrap",
+                  plot.EGA = TRUE,
+                  plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$flpl <- tmfg_vv_flpl$wc
+write_csv(clusters_vv_tm, "data/processed/clusters_vv_tm.csv")
+###############################################################
+# Clustering VVIQ LLM INDEPENDENT
+###############################################################
+
+svg(filename = "reports/figures/svg/vviq_g12_i_cluster.svg")
+tmfg_vv_g12_i <- EGA(vviq_g12_i[,vviq_col_idx],
+                     corr = "cor_auto",
+                     model = "tmfg",
+                     algorithm = "walktrap",
+                     plot.EGA = TRUE,
+                     plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$g12_i <- tmfg_vv_g12_i$wc
+
+svg(filename = "reports/figures/svg/vviq_g12qt_i_cluster.svg")
+tmfg_vv_g12_qt_i <- EGA(vviq_g12qt_i[,vviq_col_idx],
+                        corr = "cor_auto",
+                        model = "tmfg",
+                        algorithm = "walktrap",
+                        plot.EGA = TRUE,
+                        plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$g12_qt_i <- tmfg_vv_g12_qt_i$wc
+
+svg(filename = "reports/figures/svg/vviq_g27_i_cluster.svg")
+tmfg_vv_g27_i <- EGA(vviq_g27_i[,vviq_col_idx],
+                     corr = "cor_auto",
+                     model = "tmfg",
+                     algorithm = "walktrap",
+                     plot.EGA = TRUE,
+                     plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$g27_i <- tmfg_vv_g27_i$wc
+
+svg(filename = "reports/figures/svg/vviq_g27qt_i_cluster.svg")
+tmfg_vv_g27_qt_i <- EGA(vviq_g27qt_i[,vviq_col_idx],
+                        corr = "cor_auto",
+                        model = "tmfg",
+                        algorithm = "walktrap",
+                        plot.EGA = TRUE,
+                        plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$g27_qt_i <- tmfg_vv_g27_qt_i$wc
+
+svg(filename = "reports/figures/svg/vviq_ll70_i_cluster.svg")
+tmfg_vv_ll70_i <- EGA(vviq_ll70_i[,vviq_col_idx],
+                      corr = "cor_auto",
+                      model = "tmfg",
+                      algorithm = "walktrap",
+                      plot.EGA = TRUE,
+                      plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$ll70_i <- tmfg_vv_ll70_i$wc
+
+svg(filename = "reports/figures/svg/vviq_llsc_i_cluster.svg")
+tmfg_vv_llsc_i <- EGA(vviq_llsc_i[,vviq_col_idx],
+                      corr = "cor_auto",
+                      model = "tmfg",
+                      algorithm = "walktrap",
+                      plot.EGA = TRUE,
+                      plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$llsc_i <- tmfg_vv_llsc_i$wc
+
+###############################################################
+# Clustering VVIQ LLM Cumulative
+###############################################################
+svg(filename = "reports/figures/svg/vviq_g12_c_cluster.svg")
+tmfg_vv_g12_c <- EGA(vviq_g12_c[,vviq_col_idx],
+                     corr = "cor_auto",
+                     model = "tmfg",
+                     algorithm = "walktrap",
+                     plot.EGA = TRUE,
+                     plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$g12_c <- tmfg_vv_g12_c$wc
+
+svg(filename = "reports/figures/svg/vviq_g12qt_c_cluster.svg")
+tmfg_vv_g12_qt_c <- EGA(vviq_g12qt_c[,vviq_col_idx],
+                        corr = "cor_auto",
+                        model = "tmfg",
+                        algorithm = "walktrap",
+                        plot.EGA = TRUE,
+                        plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$g12_qt_c <- tmfg_vv_g12_qt_c$wc
+
+svg(filename = "reports/figures/svg/vviq_g27_c_cluster.svg")
+tmfg_vv_g27_c <- EGA(vviq_g27_c[,vviq_col_idx],
+                     corr = "cor_auto",
+                     model = "tmfg",
+                     algorithm = "walktrap",
+                     plot.EGA = TRUE,
+                     plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$g27_c <- tmfg_vv_g27_c$wc
+
+svg(filename = "reports/figures/svg/vviq_g27qt_c_cluster.svg")
+tmfg_vv_g27_qt_c <- EGA(vviq_g27qt_c[,vviq_col_idx],
+                        corr = "cor_auto",
+                        model = "tmfg",
+                        algorithm = "walktrap",
+                        plot.EGA = TRUE,
+                        plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$g27_qt_c <- tmfg_vv_g27_qt_c$wc
+
+svg(filename = "reports/figures/svg/vviq_ll70_c_cluster.svg")
+tmfg_vv_ll70_c <- EGA(vviq_ll70_c[,vviq_col_idx],
+                      corr = "cor_auto",
+                      model = "tmfg",
+                      algorithm = "walktrap",
+                      plot.EGA = TRUE,
+                      plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$ll70_c <- tmfg_vv_ll70_c$wc
+
+svg(filename = "reports/figures/svg/vviq_llsc_c_cluster.svg")
+tmfg_vv_llsc_c <- EGA(vviq_llsc_c[,vviq_col_idx],
+                      corr = "cor_auto",
+                      model = "tmfg",
+                      algorithm = "walktrap",
+                      plot.EGA = TRUE,
+                      plot.type = "qgraph")
+dev.off()
+clusters_vv_tm$llsc_c <- tmfg_vv_llsc_c$wc
+write.csv(clusters_vv_tm, "data/processed/clusters_vv_tm.csv")
+###############################################################
+# Clustering PSIQ HUMANS
+##############################################################
+svg(filename = "reports/figures/svg/psiq_fl_cluster.svg")
+tmfg_ps_fl <- EGA(psiq_fl[,psiq_col_idx],
+                    corr = "cor_auto",
+                    model = "tmfg",
+                    algorithm = "walktrap",
+                    plot.EGA = TRUE,
+                    plot.type = "qgraph")
+dev.off()
+clusters_ps_tm <- data.frame(fl = tmfg_ps_fl$wc)
+
+svg(filename = "reports/figures/svg/psiq_uk_cluster.svg")
+tmfg_ps_uk <- EGA(psiq_uk[,psiq_col_idx],
+                    corr = "cor_auto",
+                    model = "tmfg",
+                    algorithm = "walktrap",
+                    plot.EGA = TRUE,
+                    plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$uk <- tmfg_ps_uk$wc
+
+svg(filename = "reports/figures/svg/psiq_ukfl_cluster.svg")
+tmfg_ps_ukfl <- EGA(psiq_ukfl[,psiq_col_idx],
+                      corr = "cor_auto",
+                      model = "tmfg",
+                      algorithm = "walktrap",
+                      plot.EGA = TRUE,
+                      plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$ukfl <- tmfg_ps_ukfl$wc
+
+##############################################################
+# Clustering PSIQ LLM INDEPENDENT
+##############################################################
+
+svg(filename = "reports/figures/svg/psiq_g12_i_cluster.svg")
+tmfg_ps_g12_i <- EGA(psiq_g12_i[,psiq_col_idx],
+                     corr = "cor_auto",
+                     model = "tmfg",
+                     algorithm = "walktrap",
+                     plot.EGA = TRUE,
+                     plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$g12_i <- tmfg_ps_g12_i$wc
+
+svg(filename = "reports/figures/svg/psiq_g12qt_i_cluster.svg")
+tmfg_ps_g12qt_i <- EGA(psiq_g12qt_i[,psiq_col_idx],
+                        corr = "cor_auto",
+                        model = "tmfg",
+                        algorithm = "walktrap",
+                        plot.EGA = TRUE,
+                        plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$g12_qt_i <- tmfg_ps_g12qt_i$wc
+
+svg(filename = "reports/figures/svg/psiq_g27_i_cluster.svg")
+tmfg_ps_g27_i <- EGA(psiq_g27_i[,psiq_col_idx],
+                     corr = "cor_auto",
+                     model = "tmfg",
+                     algorithm = "walktrap",
+                     plot.EGA = TRUE,
+                     plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$g27_i <- tmfg_ps_g27_i$wc
+
+svg(filename = "reports/figures/svg/psiq_g27qt_i_cluster.svg")
+tmfg_ps_g27qt_i <- EGA(psiq_g27qt_i[,psiq_col_idx],
+                        corr = "cor_auto",
+                        model = "tmfg",
+                        algorithm = "walktrap",
+                        plot.EGA = TRUE,
+                        plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$g27_qt_i <- tmfg_ps_g27qt_i$wc
+
+svg(filename = "reports/figures/svg/psiq_ll70_i_cluster.svg")
+tmfg_ps_ll70_i <- EGA(psiq_ll70_i[,psiq_col_idx],
+                      corr = "cor_auto",
+                      model = "tmfg",
+                      algorithm = "walktrap",
+                      plot.EGA = TRUE,
+                      plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$ll70_i <- tmfg_ps_ll70_i$wc
+
+svg(filename = "reports/figures/svg/psiq_llsc_i_cluster.svg")
+tmfg_ps_llsc_i <- EGA(psiq_llsc_i[,psiq_col_idx],
+                      corr = "cor_auto",
+                      model = "tmfg",
+                      algorithm = "walktrap",
+                      plot.EGA = TRUE,
+                      plot.type = "qgraph") 
+dev.off()
+clusters_ps_tm$llsc_i <- tmfg_ps_llsc_i$wc
+
+###############################################################
+# Clustering PSIQ LLM CUMULATIVE
+##############################################################
+
+svg(filename = "reports/figures/svg/psiq_g12_c_cluster.svg")
+tmfg_ps_g12_c <- EGA(psiq_g12_c[,psiq_col_idx],
+                     corr = "cor_auto",
+                     model = "tmfg",
+                     algorithm = "walktrap",
+                     plot.EGA = TRUE,
+                     plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$g12_c <- tmfg_ps_g12_c$wc
+
+svg(filename = "reports/figures/svg/psiq_g12qt_c_cluster.svg")
+tmfg_ps_g12qt_c <- EGA(psiq_g12qt_c[,psiq_col_idx],
+                        corr = "cor_auto",
+                        model = "tmfg",
+                        algorithm = "walktrap",
+                        plot.EGA = TRUE,
+                        plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$g12_qt_c <- tmfg_ps_g12qt_c$wc
+
+svg(filename = "reports/figures/svg/psiq_g27_c_cluster.svg")
+tmfg_ps_g27_c <- EGA(psiq_g27_c[,psiq_col_idx],
+                     corr = "cor_auto",
+                     model = "tmfg",
+                     algorithm = "walktrap",
+                     plot.EGA = TRUE,
+                     plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$g27_c <- tmfg_ps_g27_c$wc
+
+svg(filename = "reports/figures/svg/psiq_g27qt_c_cluster.svg")
+tmfg_ps_g27qt_c <- EGA(psiq_g27qt_c[,psiq_col_idx],
+                        corr = "cor_auto",
+                        model = "tmfg",
+                        algorithm = "walktrap",
+                        plot.EGA = TRUE,
+                        plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$g27_qt_c <- tmfg_ps_g27qt_c$wc
+
+svg(filename = "reports/figures/svg/psiq_ll70_c_cluster.svg")
+tmfg_ps_ll70_c <- EGA(psiq_ll70_c[,psiq_col_idx],
+                      corr = "cor_auto",
+                      model = "tmfg",
+                      algorithm = "walktrap",
+                      plot.EGA = TRUE,
+                      plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$ll70_c <- tmfg_ps_ll70_c$wc
+
+svg(filename = "reports/figures/svg/psiq_llsc_c_cluster.svg")
+tmfg_ps_llsc_c <- EGA(psiq_llsc_c[,psiq_col_idx],
+                      corr = "cor_auto",
+                      model = "tmfg",
+                      algorithm = "walktrap",
+                      plot.EGA = TRUE,
+                      plot.type = "qgraph")
+dev.off()
+clusters_ps_tm$llsc_c <- tmfg_ps_llsc_c$wc
+write.csv(clusters_ps_tm, "data/processed/clusters_ps_tm.csv")
+
