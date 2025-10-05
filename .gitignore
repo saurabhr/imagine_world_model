@@ -4,7 +4,7 @@
 
 # Mac OS-specific storage files
 .DS_Store
-.zip
+*.zip
 
 .RData
 # vim
