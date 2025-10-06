@@ -20,7 +20,7 @@ __Note:__ The releavant files are provided with notes with them below after "<-"
 │   ├── __init__.py
 │   ├── __pycache__
 │   ├── config.py                       <- provides access project related directory paths.
-│   ├── funpair_corr_analysis.py        <- functions to for centrality correlational analysis.
+│   ├── funpair_corr_analysis.py        <- functions for centrality correlational analysis.
 │   └── sim_data.py                     <- functions to tabulate AI data and perform popuation diversity sampling for simulations.
 ├── Makefile
 ├── models                              <- Network analysis files.
