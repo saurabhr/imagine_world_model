@@ -4,7 +4,7 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-Internal World Models as Imagination Networks in Cognitive Agents
+[Under Submission] Internal World Models as Imagination Networks in Cognitive Agents
 
 ## Project Organization
 __Note:__ The releavant files are provided with notes with them below after "<-".
