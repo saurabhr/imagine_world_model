@@ -1,6 +1,6 @@
 library(tidyverse)
 library(qgraph)
-setwd("/Users/saurabh.ranjan/Documents/2020_2025_reality_monitoring_dissertation/E/imagine")
+setwd("<write your project root path>")
 set.seed(444)
 
 all_vviq_data <- read_csv("data/processed/all_vviq_groups.csv")
