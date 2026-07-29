@@ -4,7 +4,7 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-[Under Submission] [Internal World Models as Imagination Networks in Cognitive Agents](https://arxiv.org/abs/2510.04391)
+[Under Submission] [Psychological Imagination Networks Show Cross-Population Centrality and Clustering Alignment in Humans That Large Language Models Fail to Replicate](https://arxiv.org/abs/2510.04391)
 
 ## Project Organization
 __Note:__ The releavant files are provided with notes with them below after "<-".
